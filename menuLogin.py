@@ -36,30 +36,13 @@ def validar():
             if TipoUsuario == "Admin":
                 messagebox.showinfo("pagina inicio","Bienvenido Admin")
                 root.withdraw()
-                import tkinter as tk
-                from gui.guiInicio import Frame, barra_menu
-
-                def main():
-                    root = tk.Tk()
-                    
-                        
-                    #Ventana de interfaz de salida
-                    root.title('EL CORREO DE YURIII')
-                    root.iconbitmap('img/barra_menu.ico')
-                    #root.resizable(0,0)      #Cambia el tamaño de la ventana
-                    barra_menu(root)
-
-                    app = Frame(root = root) #cambio
-
-                    #Fin de ejecución
-                    app.mainloop()
-
-
-                if __name__ == '__main__':
-                    main()  
+                from menuListado import main
+                main()
             elif TipoUsuario == "RRHH":
                 messagebox.showinfo("pagina inicio","Bienvenido RRHH")
                 root.withdraw()
+                from menuRRHH import main
+                main()
             elif TipoUsuario == "Trabajador":
                 messagebox.showinfo("pagina inicio","Bienvenido Trabajador")
                 root.withdraw()

@@ -1,6 +1,6 @@
 import tkinter as tk
 import tkinter as ttk
-from gui.guiInicio import Frame, barra_menu
+from gui.guiListado import Frame, barra_menu
 
 def main():
     root = tk.Tk()
