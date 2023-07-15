@@ -1,5 +1,5 @@
 import tkinter as tk
-from gui_inicio import Frame, barra_menu
+from reciclaje.gui_inicio import Frame, barra_menu
 #import model.trabajador_dao as mt
 #from gui.gui_listado import Frame, barra_menu
 #from gui.gui_nuevo_trabajador import Frame, barra_menu

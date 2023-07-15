@@ -12,11 +12,6 @@ def listarTrabajador():
         cursor=conexion.cursor.execute(sql)   
         print("EJECUTA QUERY SELECT \n")
         listado_trabajadores = cursor.fetchall()
-    # #Imprime listado en el log- para debug
-    #     for row in rows:
-    #         print(row)
-          
-    
     except Exception as ex:
         #Imprime error por pantalla
         print("Error durante la conexión: {}".format(ex))
@@ -28,6 +23,48 @@ def listarTrabajador():
         conexion.cerrar()
         logQuery()
     return listado_trabajadores
+
+#Query Select Carga
+def listarCamposCarga(rutTrabajador):
+    conexion = ConexionDB()
+    #Arreglo para retonar listado.
+    sql = "SELECT * FROM CargaFamiliar where rutTrabajador = ?;"
+    try:
+        cursor=conexion.cursor.execute(sql,rutTrabajador)   
+        print("EJECUTA QUERY SELECT CARGA \n")
+        camposCarga = cursor.fetchall()
+    except Exception as ex:
+        #Imprime error por pantalla
+        print("Error durante la conexión: {}".format(ex))
+        #Messagge Box para usuario
+        titulo='Conexion al registro'
+        mensaje='Revisar la tabla en la base de datos'
+        messagebox.showwarning(titulo,mensaje)
+    finally:
+        conexion.cerrar()
+        logQuery()
+    return camposCarga
+
+#Query Select
+def listarCamposContacto(rutTrabajador):
+    conexion = ConexionDB()
+    #Arreglo para retonar listado.
+    sql = "SELECT * FROM ContactoEmergencia where rutTrabajador = ?;"
+    try:
+        cursor=conexion.cursor.execute(sql,rutTrabajador)   
+        print("EJECUTA QUERY SELECT CONTACTO\n")
+        camposContacto = cursor.fetchall()
+    except Exception as ex:
+        #Imprime error por pantalla
+        print("Error durante la conexión: {}".format(ex))
+        #Messagge Box para usuario
+        titulo='Conexion al registro'
+        mensaje='Revisar la tabla en la base de datos'
+        messagebox.showwarning(titulo,mensaje)
+    finally:
+        conexion.cerrar()
+        logQuery()
+    return camposContacto
 
 #Query Delete
 def eliminarTrabajador():
@@ -126,7 +163,7 @@ def ingresarContactoTrabajador(rutContacto,nombreContacto,rutTrabajador,relacion
 #Query Modificar Carga Trabajadores
 def modificarDatosTrabajador(rut,nombre,sexo,cargo,fechaingreso,area,departamento,direccion,telefono):
     conexion = ConexionDB()
-    sql ="update CargaFamiliar SET Nombre = ?,SexoTrabajador = ?,CargoTrabajador = ?,FechaIngreso = ?,Area = ? , Direccion=? , TelefonoTrabajador = ? where RutTrabajador = ? ;"
+    sql ="update Trabajadores SET Nombre = ?,SexoTrabajador = ?,CargoTrabajador = ?,FechaIngreso = ?,Area = ? , Departamento=?, Direccion=? , TelefonoTrabajador = ? where RutTrabajador = ? ;"
 
     valores = (nombre,sexo,cargo,fechaingreso,area,departamento,direccion,telefono,rut)
     

@@ -1,4 +1,4 @@
-from conexion_db import ConexionDB
+from reciclaje.conexion_db import ConexionDB
 from tkinter import messagebox
 
 

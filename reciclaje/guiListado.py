@@ -1,7 +1,7 @@
 import tkinter
 import tkinter as tk
 from tkinter import ttk
-from trabajador_dao import listar
+from model.trabajadorDao import listarTrabajador
 
 
 def barra_menu(root):
@@ -30,7 +30,7 @@ class Frame(tk.Frame):
         
     def tabla_trabajadores(self):
         #Recupera Lista de trabajadores
-        self.lista_trabajadores = listar()
+        self.lista_trabajadores = listarTrabajador()
         
         #Titulos Header Tabla
         self.tabla = ttk.Treeview(self, column=('Rut','Nombre', 'Sexo', 'Cargo'))
@@ -44,9 +44,6 @@ class Frame(tk.Frame):
         self.tabla.heading('#1', text='NOMBRE')
         self.tabla.heading('#2', text='SEXO')
         self.tabla.heading('#3', text='CARGO')
-
-        #Muestra listado en duro - para debug
-        self.tabla.insert('', 0, text='1', values=('Los vengadores', '2.35', 'Accion'))
 
         #Iterar lista trabajadores de base de datos
         for t in self.lista_trabajadores:

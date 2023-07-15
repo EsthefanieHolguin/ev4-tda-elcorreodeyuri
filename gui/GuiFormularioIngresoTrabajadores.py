@@ -101,7 +101,7 @@ def FormularioT():
 
     try:
         base = Tk()
-        base.geometry("1400x700")
+        base.geometry("1450x800")
         base.title("Ficha Ingreso Trabajador")
 
         groupBox = LabelFrame(base,text="Datos Personales del Trabajador",padx=5,pady=5)
@@ -125,7 +125,7 @@ def FormularioT():
 
         labelSexoTrabajador=Label(groupBox,text="Sexo:",width=20,font=("arial",11)).grid(row=4,column=0)
         seleccionSexo = tk.StringVar()
-        comboSexo = ttk.Combobox(groupBox,values=["Masculino","Femenino","Prefiero no responder"], textvariable=seleccionSexo)
+        comboSexo = ttk.Combobox(groupBox,values=["Masculino","Femenino"," Prefierono responder"], textvariable=seleccionSexo)
         comboSexo.grid(row=4,column=1)
 
 
@@ -188,14 +188,18 @@ def FormularioT():
 
         labelSexoCarga=Label(groupBox,text="Sexo:",width=20,font=("arial",11)).grid(row=4,column=0)
         seleccionSexoCarga = tk.StringVar()
-        comboSexoCarga = ttk.Combobox(groupBox,values=["Masculino","Femenino"], textvariable=seleccionSexoCarga)
+        comboSexoCarga = ttk.Combobox(groupBox,values=["Masculino","Femenino"," Prefierono responder"], textvariable=seleccionSexoCarga)
         comboSexoCarga.grid(row=4,column=1)
 
-        groupBox = LabelFrame(base,padx=5,pady=5)
-        groupBox.grid(row=4,column=0,padx=10,pady=10)
-        Button(groupBox,text="Guardar",width=10,command=guardarRegistros).grid(row=0,column=0)
-        Button(groupBox,text="Modificar",width=10,command=modificarRegistros).grid(row=0,column=1)
-        Button(groupBox,text="Eliminar",width=10,command=eliminarRegistros).grid(row=0,column=2)
+        groupBox = LabelFrame(base,padx=3,pady=3)
+        groupBox.grid(row=5,column=0,padx=1,pady=1)
+        Button(groupBox,text="Modificar",width=14,command=modificarRegistros).grid(row=0,column=1)
+        Button(groupBox,text="Eliminar",width=14,command=eliminarRegistros).grid(row=0,column=2)
+        Button(groupBox,text="Limpiar",width=14,command=limpiarCampos).grid(row=0,column=3)
+        Button(groupBox,text="Nuevo",width=14,command=nuevoRegistro).grid(row=1,column=1)
+        Button(groupBox,text="Guardar Nuevo",width=14,command=guardarRegistros).grid(row=1,column=2)
+        Button(groupBox,text="Salir",width=14,command=base.destroy).grid(row=1,column=3)
+
 
 
 
@@ -207,14 +211,14 @@ def FormularioT():
         #Crea Tabla y Titulos Header 
         tree = ttk.Treeview(groupBox,columns=("Rut","Nombre","Sexo","Cargo","Fecha de Ingreso"),show='headings',height=5,)
         
-                #Valores Detalle Tabla
+        #Valores Detalle Tabla
         tree.heading('#1', text='RUT')
         tree.heading('#2', text='NOMBRE')
         tree.heading('#3', text='SEXO')
         tree.heading('#4', text='CARGO')
         tree.heading('#5', text='FECHA DE INGRESO')
 
-        # #Campos Detalle Tabla
+        #Campos Detalle Tabla
         tree.column("# 1",anchor=CENTER)
         tree.column("# 2",anchor=CENTER)
         tree.column("# 3",anchor=CENTER)
@@ -222,14 +226,11 @@ def FormularioT():
         tree.column("# 5",anchor=CENTER)
 
         #Agregar los datos a la tabla y Mostrar la tabla
-        lista_trabajadores = listarTrabajador()
-        for row in lista_trabajadores:
+        for row in listarTrabajador():
              tree.insert('', 0, text=row[1], values=(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8]))
-
         
         #Ejecutar la función de hacer clic y mostrar los entry
         tree.bind("<<TreeviewSelect>>",seleccionarRegistro)
-
 
         tree.pack()
 
@@ -285,7 +286,16 @@ def guardarRegistros():
         actualizarTreeView()
 
         #Limpiamos los campos:
+        limpiarCampos()
 
+    except ValueError as error:
+            print("Error al ingresar los datos {}".format(error))
+
+def nuevoRegistro():
+        limpiarCampos()
+        messagebox.showinfo("Información","Ingrese Nuevo Trabajador y de click en Guardar Nuevo")
+#Limpiamos los campos:
+def limpiarCampos():
         textBoxRutTrabajador.delete(0,END)
         textBoxNombreTrabajador.delete(0,END)
         textBoxDireccionTrabajador.delete(0,END)
@@ -295,11 +305,14 @@ def guardarRegistros():
         textBoxFechaIngreso.delete(0,END)
         textBoxAreaTrabajador.delete(0,END)
         textBoxDepartamento.delete(0,END)
-
-    except ValueError as error:
-            print("Error al ingresar los datos {}".format(error))
-
-
+        textBoxRutContacto.delete(0,END)
+        textBoxNombreContacto.delete(0,END)
+        textBoxRelacionTrabajador.delete(0,END)
+        textBoxTelefonoContacto.delete(0,END)
+        textBoxRutCarga.delete(0,END)
+        textBoxNombreCarga.delete(0,END)
+        textBoxParentesco.delete(0,END)
+        comboSexoCarga.delete(0,END)
 
 def actualizarTreeView():
      global tree
@@ -308,13 +321,9 @@ def actualizarTreeView():
           #Borrar los elementos actuales del TreeView
           tree.delete(*tree.get_children())
 
-          #Obtener los nuevos datos que deseamos mostrar
-          datos = listarTrabajador()
-
           #Insertar los nuevos datos en el TreeView
           for row in listarTrabajador():
-             tree.insert("","end",values=row)
-
+                tree.insert('', 0, text=row[1], values=(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8]))
      except ValueError as error:
           print("Error al actualizar la tabla {}".format(error))
 
@@ -326,25 +335,38 @@ def seleccionarRegistro(event):
           if itemSeleccionado:
                #Obtener el PK del elemento seleccionado
                values = tree.item(itemSeleccionado)['values']
+               
+            #    #Genera Campos Contacto y Carga
+            #    rutTrabajador=values[0]
+            #    #Agregar los datos a la tabla y Mostrar la tabla
+            #    listarCamposContacto(rutTrabajador)
+            #    for row in listarCamposContacto:
+            #         tree.insert('', 0, text=row[9], values=(row[9],row[10],row[11],row[12]))
+                
+            #    listarCamposContacto(rutTrabajador)
+            #    for row in listarCamposContacto:
+            #         tree.insert('', 0, text=row[13], values=(row[14],row[1],row[11],row[12]))
 
                #Establecer los valores en los Widgets Entry
-               textBoxRutTrabajador.delete(0,END)
+               limpiarCampos()
                textBoxRutTrabajador.insert(0,values[0])
-               textBoxNombreTrabajador.delete(0,END)
                textBoxNombreTrabajador.insert(0,values[1])
                comboSexo.set(values[2])
-               textBoxCargoTrabajador.delete(0,END)
                textBoxCargoTrabajador.insert(0,values[3])
-               textBoxFechaIngreso.delete(0,END)
                textBoxFechaIngreso.insert(0,values[4])
-               textBoxAreaTrabajador.delete(0,END)
                textBoxAreaTrabajador.insert(0,values[5])
-               textBoxDepartamento.delete(0,END)
                textBoxDepartamento.insert(0,values[6])
-               textBoxDireccionTrabajador.delete(0,END)
                textBoxDireccionTrabajador.insert(0,values[7])
-               textBoxTelefonoTrabajador.delete(0,END)
                textBoxTelefonoTrabajador.insert(0,values[8])
+            #    textBoxRutContacto.insert(0,values[9])
+            #    textBoxNombreContacto.insert(0,values[10])
+            #    textBoxRelacionTrabajador.insert(0,values[11])
+            #    textBoxTelefonoContacto.insert(0,values[12])
+            #    textBoxRutCarga.insert(0,values[13])
+            #    textBoxNombreCarga.insert(0,values[14])
+            #    textBoxParentesco.insert(0,values[15])
+            #    comboSexoCarga.insert(0,values[16])
+
 
      except ValueError as error:
           print("Error al seleccionar registro {}".format(error))
@@ -397,24 +419,7 @@ def modificarRegistros():
         actualizarTreeView()
 
         #Limpiamos los campos:
-
-        textBoxRutTrabajador.delete(0,END)
-        textBoxNombreTrabajador.delete(0,END)
-        textBoxDireccionTrabajador.delete(0,END)
-        textBoxTelefonoTrabajador.delete(0,END)
-        comboSexo.delete(0,END)
-        textBoxCargoTrabajador.delete(0,END)
-        textBoxFechaIngreso.delete(0,END)
-        textBoxAreaTrabajador.delete(0,END)
-        textBoxDepartamento.delete(0,END)
-        textBoxRutContacto.delete(0,END)
-        textBoxNombreContacto.delete(0,END)
-        textBoxRelacionTrabajador.delete(0,END)
-        textBoxTelefonoContacto.delete(0,END)
-        textBoxRutCarga.delete(0,END)
-        textBoxNombreCarga.delete(0,END)
-        textBoxParentesco.delete(0,END)
-        comboSexoCarga.delete(0,END)
+        limpiarCampos()
 
     except ValueError as error:
             print("Error al modificar los datos {}".format(error))
@@ -440,24 +445,7 @@ def eliminarRegistros():
         actualizarTreeView()
 
         #Limpiamos los campos:
-
-        textBoxRutTrabajador.delete(0,END)
-        textBoxNombreTrabajador.delete(0,END)
-        textBoxDireccionTrabajador.delete(0,END)
-        textBoxTelefonoTrabajador.delete(0,END)
-        comboSexo.delete(0,END)
-        textBoxCargoTrabajador.delete(0,END)
-        textBoxFechaIngreso.delete(0,END)
-        textBoxAreaTrabajador.delete(0,END)
-        textBoxDepartamento.delete(0,END)
-        textBoxRutContacto.delete(0,END)
-        textBoxNombreContacto.delete(0,END)
-        textBoxRelacionTrabajador.delete(0,END)
-        textBoxTelefonoContacto.delete(0,END)
-        textBoxRutCarga.delete(0,END)
-        textBoxNombreCarga.delete(0,END)
-        textBoxParentesco.delete(0,END)
-        comboSexoCarga.delete(0,END)
+        limpiarCampos()
 
     except ValueError as error:
             print("Error al modificar los datos {}".format(error))
