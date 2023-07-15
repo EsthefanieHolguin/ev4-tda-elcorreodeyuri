@@ -1,7 +1,7 @@
 import tkinter
 import tkinter as tk
 from tkinter import ttk
-from trabajadorDao import listarTrabajador
+from model.trabajadorDao import listarTrabajador
 
 
 def tabla_trabajadores(event = None):
