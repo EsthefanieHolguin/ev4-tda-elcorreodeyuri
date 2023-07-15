@@ -2,37 +2,37 @@ from Conexion import *
 
 class IngresoTrabajador:
 
-    def mostrarTrabajadores():
-        try:
-            cone = CConexion.ConexionBaseDatos()
-            cursor = cone.cursor()
-            cursor.execute("select * from Trabajadores;")
-            miResultado = cursor.fetchall()
-            cone.commit()
-            cone.close()
-            return miResultado
+    # def mostrarTrabajadores():
+    #     try:
+    #         cone = CConexion.ConexionBaseDatos()
+    #         cursor = cone.cursor()
+    #         cursor.execute("select * from Trabajadores;")
+    #         miResultado = cursor.fetchall()
+    #         cone.commit()
+    #         cone.close()
+    #         return miResultado
 
-        except mysql.connector.Error as error:
-            print("Error de despliegue de datos: {}".format(error))
+    #     except mysql.connector.Error as error:
+    #         print("Error de despliegue de datos: {}".format(error))
 
 
 
-    def ingresarTrabajador(rut,nombre,sexo,cargo,fehaingreso,area,departamento,direccion,telefono):
+    # def ingresarTrabajador(rut,nombre,sexo,cargo,fehaingreso,area,departamento,direccion,telefono):
 
-        try:
-            cone = CConexion.ConexionBaseDatos()
-            cursor = cone.cursor()
-            sql ="insert into Trabajadores values(%s,%s,%s,%s,%s,%s,%s,%s,%s);"
-            #La variable valores tiene que ser una tupla
-            #Como minima expresion es: (valor,) la coma hace que sea una tupla
-            valores = (rut,nombre,sexo,cargo,fehaingreso,area,departamento,direccion,telefono)
-            cursor.execute(sql,valores)
-            cone.commit()
-            print(cursor.rowcount,"Registro Ingresado")
-            cone.close()
+    #     try:
+    #         cone = CConexion.ConexionBaseDatos()
+    #         cursor = cone.cursor()
+    #         sql ="insert into Trabajadores values(%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+    #         #La variable valores tiene que ser una tupla
+    #         #Como minima expresion es: (valor,) la coma hace que sea una tupla
+    #         valores = (rut,nombre,sexo,cargo,fehaingreso,area,departamento,direccion,telefono)
+    #         cursor.execute(sql,valores)
+    #         cone.commit()
+    #         print(cursor.rowcount,"Registro Ingresado")
+    #         cone.close()
 
-        except mysql.connector.Error as error:
-            print("Error de ingreso de datos: {}".format(error))
+    #     except mysql.connector.Error as error:
+    #         print("Error de ingreso de datos: {}".format(error))
 
 
 
@@ -60,7 +60,7 @@ class IngresoTrabajador:
             sql ="delete from Trabajadores where Trabajadores.RutTrabajador = %s;"
             sql2 ="delete from ContactoEmergencia where ContactoEmergencia.RutTrabajador = %s;"
             sql3 ="delete from CargaFamiliar where CargaFamiliar.RutTrabajador = %s;"
-            valores = (rut,)
+            valores = (rut)
             cursor.execute(sql,valores)
             cone.commit()
             cursor.execute(sql2,valores)

@@ -6,8 +6,9 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 
-from Conexion import *
-from IngresoDatosFormTrabajadores import *
+#from Conexion import *
+#from IngresoDatosFormTrabajadores import *
+from model.trabajadorDao import *
 
 
 class FormularioTrabajadores:
@@ -203,23 +204,27 @@ def FormularioT():
 
         #Crear un Treeview
 
-        #Configurar las columnas
-        tree = ttk.Treeview(groupBox,columns=("Rut Trabajador","Nombre Trabajador","Direccion","Telefono","Sexo"),show='headings',height=5,)
+        #Crea Tabla y Titulos Header 
+        tree = ttk.Treeview(groupBox,columns=("Rut","Nombre","Sexo","Cargo","Fecha de Ingreso"),show='headings',height=5,)
+        
+                #Valores Detalle Tabla
+        tree.heading('#1', text='RUT')
+        tree.heading('#2', text='NOMBRE')
+        tree.heading('#3', text='SEXO')
+        tree.heading('#4', text='CARGO')
+        tree.heading('#5', text='FECHA DE INGRESO')
+
+        # #Campos Detalle Tabla
         tree.column("# 1",anchor=CENTER)
-        tree.heading("# 1",text="Rut Trabajador")
         tree.column("# 2",anchor=CENTER)
-        tree.heading("# 2",text="Nombre Trabajador")
         tree.column("# 3",anchor=CENTER)
-        tree.heading("# 3",text="Sexo")
         tree.column("# 4",anchor=CENTER)
-        tree.heading("# 4",text="Cargo")
         tree.column("# 5",anchor=CENTER)
-        tree.heading("# 5",text="Fecha Ingreso")
 
         #Agregar los datos a la tabla y Mostrar la tabla
-
-        for row in IngresoTrabajador.mostrarTrabajadores():
-             tree.insert("","end",values=row)
+        lista_trabajadores = listarTrabajador()
+        for row in lista_trabajadores:
+             tree.insert('', 0, text=row[1], values=(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8]))
 
         
         #Ejecutar la función de hacer clic y mostrar los entry
@@ -266,15 +271,15 @@ def guardarRegistros():
         sexoCarga = comboSexoCarga.get()
 
         #Se llama al metodo ingresarTrabajador() para guardar en la tabla Trabajadores, los datos personales
-        IngresoTrabajador.ingresarTrabajador(rutTrabajador,nombreTrabajador,sexoTrabajador,cargoTrabajador,fechaIngreso,area,departamento,direccionTrabajador,telefonoTrabajador)
+        ingresarTrabajador(rutTrabajador,nombreTrabajador,sexoTrabajador,cargoTrabajador,fechaIngreso,area,departamento,direccionTrabajador,telefonoTrabajador)
         messagebox.showinfo("Información","Los datos personales fueron guardados.")
 
         #Se llama al metodo ingresarCargaTrabajador() para guardar en la tabla CargaFamiliar los datos respectivos a la carga familiar
-        IngresoTrabajador.ingresarCargaTrabajador(rutCarga,nombreCarga,rutTrabajador,parentesco,sexoCarga)
+        ingresarCargaTrabajador(rutCarga,nombreCarga,rutTrabajador,parentesco,sexoCarga)
         messagebox.showinfo("Información","La carga familiar fue guardada.")
 
         #Se llama al metodo ingresarContactoTrabajador() para guardar en la tabla ContactoEmergencia los datos de contacto de emergencia del trabajador
-        IngresoTrabajador.ingresarContactoTrabajador(rutContacto,nombreContacto,rutTrabajador,relacionTrabajador,telefonoContacto)
+        ingresarContactoTrabajador(rutContacto,nombreContacto,rutTrabajador,relacionTrabajador,telefonoContacto)
         messagebox.showinfo("Información","El contacto de emergencia fue guardado.")
 
         actualizarTreeView()
@@ -304,10 +309,10 @@ def actualizarTreeView():
           tree.delete(*tree.get_children())
 
           #Obtener los nuevos datos que deseamos mostrar
-          datos = IngresoTrabajador.mostrarTrabajadores()
+          datos = listarTrabajador()
 
           #Insertar los nuevos datos en el TreeView
-          for row in IngresoTrabajador.mostrarTrabajadores():
+          for row in listarTrabajador():
              tree.insert("","end",values=row)
 
      except ValueError as error:
@@ -377,15 +382,15 @@ def modificarRegistros():
         sexoCarga = comboSexoCarga.get()
 
         #Se llama al metodo modificarDatosTrabajador() para actualizar en la tabla Trabajadores, los datos personales
-        IngresoTrabajador.modificarDatosTrabajador(rutTrabajador,nombreTrabajador,sexoTrabajador,cargoTrabajador,fechaIngreso,area,departamento,direccionTrabajador,telefonoTrabajador)
+        modificarDatosTrabajador(rutTrabajador,nombreTrabajador,sexoTrabajador,cargoTrabajador,fechaIngreso,area,departamento,direccionTrabajador,telefonoTrabajador)
         messagebox.showinfo("Información","Los datos fueron actualizados")
 
         #Se llama al metodo modificarContactoTrabajador() para guardar en la tabla ContactoEmergencia, los datos de contacto de emergencia del trabajador
-        IngresoTrabajador.modificarContactoTrabajador(rutContacto,nombreContacto,rutTrabajador,relacionTrabajador,telefonoContacto)
+        modificarContactoTrabajador(rutContacto,nombreContacto,rutTrabajador,relacionTrabajador,telefonoContacto)
         messagebox.showinfo("Información","Los datos de contacto de emergencia fueron guardados.")
 
         #Se llama al metodo modificarCargaTrabajador() para guardar en la tabla CargaFamiliar los datos respectivos a la carga familiar
-        IngresoTrabajador.modificarCargaTrabajador(rutCarga,nombreCarga,rutTrabajador,parentesco,sexoCarga)
+        modificarCargaTrabajador(rutCarga,nombreCarga,rutTrabajador,parentesco,sexoCarga)
         messagebox.showinfo("Información","La carga familiar fue guardada.")
 
 
@@ -429,7 +434,7 @@ def eliminarRegistros():
         
         rutTrabajador = textBoxRutTrabajador.get()
 
-        IngresoTrabajador.eliminarTrabajador(rutTrabajador)
+        eliminarTrabajador(rutTrabajador)
         messagebox.showinfo("Información","Los datos fueron eliminados")
 
         actualizarTreeView()
