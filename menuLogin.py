@@ -27,30 +27,30 @@ def validar():
         connection = pyodbc.connect('DRIVER={SQL Server};SERVER=sqlserver.cjnplcvfcn4g.sa-east-1.rds.amazonaws.com;DATABASE=Yury;UID=admin;PWD=TDA123456.')
         cursor = connection.cursor()
         cursor.execute("SELECT TipoUsuario FROM UsuarioSistema WHERE RutTrabajador='"+usuario1.get()+"' and Contraseña='"+contra.get()+"'")
-        
         if cursor.fetchval():
-            cursor.execute("SELECT TipoUsuario FROM UsuarioSistema WHERE RutTrabajador='"+usuario1.get()+"' and Contraseña='"+contra.get()+"'")
+            cursor.execute("SELECT TipoUsuario,RutTrabajador FROM UsuarioSistema WHERE RutTrabajador='"+usuario1.get()+"' and Contraseña='"+contra.get()+"'")
             TipoUsuario  = cursor.fetchval()
             connection.close()
-            if TipoUsuario == "Jefe RRHH":
+            if TipoUsuario == "JefeRRHH":
                 messagebox.showinfo("pagina inicio","Bienvenido")
                 root.withdraw()
-                from gui.GuiJefeRRHH import FormularioT
+                from GuiJefeRRHH import FormularioT
                 FormularioT()
                 
-                from gui.GuiFormularioIngresoTrabajadores import FormularioT
+                from GuiFormularioIngresoTrabajadores import FormularioT
                 FormularioT()
                 
             elif TipoUsuario == "RRHH":
                 messagebox.showinfo("pagina inicio","Bienvenido")
-                from gui.GuiListadoRRHH import FormularioT
-                FormularioT()
+                # from GuiListadoRRHH import FormularioT
+                # FormularioT()
                 root.withdraw()
-                from gui.GuiFormularioIngresoTrabajadores import FormularioT
+                from GuiFormularioIngresoTrabajadores import FormularioT
                 FormularioT()
             elif TipoUsuario == "Trabajador":
                 messagebox.showinfo("pagina inicio","Bienvenido")
                 root.withdraw()
+                messagebox.showinfo("pagina inicio","Modulo en construcción")
 
         else:
             messagebox.showwarning("Inicio sesión fallido","Rut o contraseña Incorrecto")

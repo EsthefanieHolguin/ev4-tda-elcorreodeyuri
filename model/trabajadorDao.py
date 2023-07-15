@@ -24,6 +24,7 @@ def listarTrabajador():
         logQuery()
     return listado_trabajadores
 
+
 #Query Select Carga
 def listarCamposCarga(rutTrabajador):
     conexion = ConexionDB()

@@ -1,14 +1,11 @@
-#https://www.youtube.com/watch?v=Ro2m95m8QkI&ab_channel=SinRuedaTecnológica
-
 import tkinter as tk
 
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 
-#from Conexion import *
-#from IngresoDatosFormTrabajadores import *
 from model.trabajadorDao import *
+from menuLogin import usuario1
 
 
 class FormularioTrabajadores:
@@ -194,14 +191,8 @@ def FormularioT():
         groupBox = LabelFrame(base,padx=3,pady=3)
         groupBox.grid(row=5,column=0,padx=1,pady=1)
         Button(groupBox,text="Modificar",width=14,command=modificarRegistros).grid(row=0,column=1)
-        Button(groupBox,text="Eliminar",width=14,command=eliminarRegistros).grid(row=0,column=2)
         Button(groupBox,text="Limpiar",width=14,command=limpiarCampos).grid(row=0,column=3)
-        Button(groupBox,text="Nuevo",width=14,command=nuevoRegistro).grid(row=1,column=1)
-        Button(groupBox,text="Guardar Nuevo",width=14,command=guardarRegistros).grid(row=1,column=2)
         Button(groupBox,text="Salir",width=14,command=base.destroy).grid(row=1,column=3)
-
-
-
 
         groupBox = LabelFrame(base,text="Lista de Trabajadores",padx=5,pady=5)
         groupBox.grid(row=0,column=1,padx=10,pady=10)
@@ -226,7 +217,7 @@ def FormularioT():
         tree.column("# 5",anchor=CENTER)
 
         #Agregar los datos a la tabla y Mostrar la tabla
-        for row in listarTrabajador():
+        for row in listarTrabajador2(usuario1):
              tree.insert('', 0, text=row[1], values=(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8]))
         
         #Ejecutar la función de hacer clic y mostrar los entry

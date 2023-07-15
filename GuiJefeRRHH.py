@@ -93,7 +93,7 @@ def FormularioT():
 
         labelSexoTrabajador=Label(groupBox,text="Sexo:",width=20).grid(row=0,column=0)
         seleccionSexo = tk.StringVar()
-        comboSexo = ttk.Combobox(groupBox,values=["Masculino","Femenino"," Prefierono responder"], textvariable=seleccionSexo)
+        comboSexo = ttk.Combobox(groupBox,values=["Masculino","Femenino"," Prefiero no responder"], textvariable=seleccionSexo)
         comboSexo.grid(row=1,column=0)
         
         labelCargoTrabajador=Label(groupBox,text="Cargo:",width=20).grid(row=0,column=1)
