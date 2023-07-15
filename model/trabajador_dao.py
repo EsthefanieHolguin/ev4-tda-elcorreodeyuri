@@ -1,9 +1,9 @@
-from conexion_db import ConexionDB
+from .conexion_db import ConexionDB
 from tkinter import messagebox
 
 
 #Query Select
-def listar():
+def listarTrabajador():
     conexion = ConexionDB()
     #Arreglo para retonar listado.
     listado_trabajadores = []
@@ -11,10 +11,12 @@ def listar():
     try:
         cursor=conexion.cursor.execute(sql)   
         print("EJECUTA QUERY SELECT \n")
-        rows = cursor.fetchall()
+        listado_trabajadores = cursor.fetchall()
     # #Imprime listado en el log- para debug
     #     for row in rows:
     #         print(row)
+          
+    
     except Exception as ex:
         #Imprime error por pantalla
         print("Error durante la conexión: {}".format(ex))
@@ -24,26 +26,30 @@ def listar():
         messagebox.showwarning(titulo,mensaje)
     finally:
         conexion.cerrar()
-        trabajador.logQuery()
-        titulo='LISTADO'
-        mensaje='Se generó Listado'
-        messagebox.showinfo(titulo,mensaje)
+        logQuery()
     return listado_trabajadores
+
 #Query Insert
-def insertar():
+def ingresarTrabajador(rut,nombre,sexo,cargo,fehaingreso,area,departamento,direccion,telefono):
     conexion = ConexionDB()
-    sql = "Insert into Trabajadores(RutTrabajador, Nombre, SexoTrabajador, CargoTrabajador, FechaIngreso, Area, Departamento, Direccion,TelefonoTrabajador)    VALUES('2222-9','ADMIN2','NA','NA','2023/07/11','RRHH''RRHH','Coyancura 2288',    '987654321');"
+    #sql = "Insert into Trabajadores(RutTrabajador, Nombre, SexoTrabajador, CargoTrabajador, FechaIngreso, Area, Departamento, Direccion,TelefonoTrabajador)    VALUES('2222-9','ADMIN2','NA','NA','2023/07/11','RRHH''RRHH','Coyancura 2288',    '987654321');"
+    sql ="insert into Trabajadores values(?,?,?,?,?,?,?,?,?);"
+    valores = (rut,nombre,sexo,cargo,fehaingreso,area,departamento,direccion,telefono)
+    
+    print (sql)
+    print(valores)
+
     try:
-        conexion.cursor.execute(sql)   
+        conexion.cursor.execute(sql,valores)   
         print("EJECUTA QUERY INSERT \n")
     except Exception as ex:
         print("Error durante la conexión: {}".format(ex))
     finally:
         conexion.cerrar()
-        trabajador.logQuery()
+        logQuery()
         
 #Query Delete
-def eliminar():
+def eliminarTrabajador():
     conexion = ConexionDB()
     sql = "delete from Trabajadores where RutTrabajador = '2222-9';"
     try:
@@ -53,17 +59,13 @@ def eliminar():
         print("Error durante la conexión: {}".format(ex))
     finally:
         conexion.cerrar()
-        trabajador.logQuery()
+        logQuery()
 
 def logQuery():
     a=" ******************************\n"
     b="*      QUERY FINALIZADA      *\n"
     c="******************************\n"
     print(a,b,c)
-#listar()
-# insertar()
-# listar()
-# eliminar()
-# listar()
+
 
 

@@ -1,7 +1,7 @@
 import tkinter
 import tkinter as tk
 from tkinter import ttk
-from trabajador_dao import listar
+from model.trabajador_dao import listarTrabajador
 
 
 def barra_menu(root):
@@ -30,7 +30,7 @@ class Frame(tk.Frame):
         
     def tabla_trabajadores(self):
         #Recupera Lista de trabajadores
-        self.lista_trabajadores = listar()
+        self.lista_trabajadores = listarTrabajador()
         
         #Titulos Header Tabla
         self.tabla = ttk.Treeview(self, column=('Rut','Nombre', 'Sexo', 'Cargo'))
