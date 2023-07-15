@@ -2,6 +2,7 @@ import tkinter
 import tkinter as tk
 from tkinter import ttk
 from trabajador_dao import listar
+import pyodbc #
 
 
 def barra_menu(root):
@@ -73,14 +74,25 @@ class Frame(tk.Frame):
             self.tabla.insert('', 0, text=t[0], values=(t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8]))
 
 
-def mostrar_trabajadores(frame):
+#def mostrar_trabajadores(frame): ***
+
+def mostrar_trabajadores(frame, genero):
+    # Realizar consulta a la base de datos
+    conn = pyodbc.connect('DRIVER={SQL Server};SERVER=sqlserver.cjnplcvfcn4g.sa-east-1.rds.amazonaws.com;DATABASE=Yury;UID=admin;PWD=TDA123456.')
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM Trabajadores WHERE Sexo Trabajador = '{genero}'")
+    lista_trabajadores = cursor.fetchall()
     
-    lista_trabajadores = listar()     
+    #lista_trabajadores = listar()  ***
+    #     
     # Limpiar tabla antes de mostrar nuevos datos
     frame.tabla.delete(*frame.tabla.get_children())
     
     # Mostrar los trabajadores en la tabla
     frame.mostrar_trabajadores(lista_trabajadores)
+
+    cursor.close() #***
+    conn.close() #***
 
 
 

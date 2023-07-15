@@ -11,7 +11,7 @@ def main():
     
         
     #Ventana de interfaz de salida
-    root.title('EL CORREO DE YURIII')
+    root.title('EL CORREO DE YURI')
     root.iconbitmap('img/logo.ico')
     #root.resizable(0,0)      #Cambia el tamaño de la ventana
     barra_menu(root)
