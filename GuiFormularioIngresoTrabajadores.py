@@ -241,8 +241,7 @@ def guardarRegistros():
 
     try:
         #verificar si los widgets estan inicializados
-        if textBoxRutTrabajador is None or textBoxNombreTrabajador is None or textBoxDireccionTrabajador is None or textBoxTelefonoTrabajador is None or comboSexo is None or textBoxCargoTrabajador is None or textBoxFechaIngreso is None or textBoxAreaTrabajador is None or textBoxDepartamento is None:
-            # or textBoxRutContacto is None or textBoxNombreContacto is None or textBoxRelacionTrabajador is None or textBoxTelefonoContacto is None or textBoxRutCarga is None or textBoxNombreCarga is None or textBoxParentesco is None or comboSexoCarga is None:
+        if textBoxRutTrabajador is None or textBoxNombreTrabajador is None or textBoxDireccionTrabajador is None or textBoxTelefonoTrabajador is None or comboSexo is None or textBoxCargoTrabajador is None or textBoxFechaIngreso is None or textBoxAreaTrabajador is None or textBoxDepartamento is None or textBoxRutContacto is None or textBoxNombreContacto is None or textBoxRelacionTrabajador is None or textBoxTelefonoContacto is None or textBoxRutCarga is None or textBoxNombreCarga is None or textBoxParentesco is None or comboSexoCarga is None:
             print("Los widgets no estan inicializados.")
             return
         
@@ -266,8 +265,17 @@ def guardarRegistros():
         parentesco = textBoxParentesco.get()
         sexoCarga = comboSexoCarga.get()
 
+        #Se llama al metodo ingresarTrabajador() para guardar en la tabla Trabajadores, los datos personales
         IngresoTrabajador.ingresarTrabajador(rutTrabajador,nombreTrabajador,sexoTrabajador,cargoTrabajador,fechaIngreso,area,departamento,direccionTrabajador,telefonoTrabajador)
-        messagebox.showinfo("Información","Los datos fueron guardados")
+        messagebox.showinfo("Información","Los datos personales fueron guardados.")
+
+        #Se llama al metodo ingresarCargaTrabajador() para guardar en la tabla CargaFamiliar los datos respectivos a la carga familiar
+        IngresoTrabajador.ingresarCargaTrabajador(rutCarga,nombreCarga,rutTrabajador,parentesco,sexoCarga)
+        messagebox.showinfo("Información","La carga familiar fue guardada.")
+
+        #Se llama al metodo ingresarContactoTrabajador() para guardar en la tabla ContactoEmergencia los datos de contacto de emergencia del trabajador
+        IngresoTrabajador.ingresarContactoTrabajador(rutContacto,nombreContacto,rutTrabajador,relacionTrabajador,telefonoContacto)
+        messagebox.showinfo("Información","El contacto de emergencia fue guardado.")
 
         actualizarTreeView()
 
@@ -345,8 +353,7 @@ def modificarRegistros():
 
     try:
         #verificar si los widgets estan inicializados
-        if textBoxRutTrabajador is None or textBoxNombreTrabajador is None or textBoxDireccionTrabajador is None or textBoxTelefonoTrabajador is None or comboSexo is None or textBoxCargoTrabajador is None or textBoxFechaIngreso is None or textBoxAreaTrabajador is None or textBoxDepartamento is None:
-            # or textBoxRutContacto is None or textBoxNombreContacto is None or textBoxRelacionTrabajador is None or textBoxTelefonoContacto is None or textBoxRutCarga is None or textBoxNombreCarga is None or textBoxParentesco is None or comboSexoCarga is None:
+        if textBoxRutTrabajador is None or textBoxNombreTrabajador is None or textBoxDireccionTrabajador is None or textBoxTelefonoTrabajador is None or comboSexo is None or textBoxCargoTrabajador is None or textBoxFechaIngreso is None or textBoxAreaTrabajador is None or textBoxDepartamento is None or textBoxRutContacto is None or textBoxNombreContacto is None or textBoxRelacionTrabajador is None or textBoxTelefonoContacto is None or textBoxRutCarga is None or textBoxNombreCarga is None or textBoxParentesco is None or comboSexoCarga is None:
             print("Los widgets no estan inicializados.")
             return
         
@@ -360,7 +367,6 @@ def modificarRegistros():
         fechaIngreso = textBoxFechaIngreso.get()
         area = textBoxAreaTrabajador.get()
         departamento = textBoxDepartamento.get()
-
         rutContacto = textBoxRutContacto.get()
         nombreContacto = textBoxNombreContacto.get()
         relacionTrabajador = textBoxRelacionTrabajador.get()
@@ -370,8 +376,18 @@ def modificarRegistros():
         parentesco = textBoxParentesco.get()
         sexoCarga = comboSexoCarga.get()
 
-        IngresoTrabajador.modificarTrabajador(rutTrabajador,nombreTrabajador,sexoTrabajador,cargoTrabajador,fechaIngreso,area,departamento,direccionTrabajador,telefonoTrabajador)
+        #Se llama al metodo modificarDatosTrabajador() para actualizar en la tabla Trabajadores, los datos personales
+        IngresoTrabajador.modificarDatosTrabajador(rutTrabajador,nombreTrabajador,sexoTrabajador,cargoTrabajador,fechaIngreso,area,departamento,direccionTrabajador,telefonoTrabajador)
         messagebox.showinfo("Información","Los datos fueron actualizados")
+
+        #Se llama al metodo modificarContactoTrabajador() para guardar en la tabla ContactoEmergencia, los datos de contacto de emergencia del trabajador
+        IngresoTrabajador.modificarContactoTrabajador(rutContacto,nombreContacto,rutTrabajador,relacionTrabajador,telefonoContacto)
+        messagebox.showinfo("Información","Los datos de contacto de emergencia fueron guardados.")
+
+        #Se llama al metodo modificarCargaTrabajador() para guardar en la tabla CargaFamiliar los datos respectivos a la carga familiar
+        IngresoTrabajador.modificarCargaTrabajador(rutCarga,nombreCarga,rutTrabajador,parentesco,sexoCarga)
+        messagebox.showinfo("Información","La carga familiar fue guardada.")
+
 
         actualizarTreeView()
 
@@ -386,40 +402,32 @@ def modificarRegistros():
         textBoxFechaIngreso.delete(0,END)
         textBoxAreaTrabajador.delete(0,END)
         textBoxDepartamento.delete(0,END)
+        textBoxRutContacto.delete(0,END)
+        textBoxNombreContacto.delete(0,END)
+        textBoxRelacionTrabajador.delete(0,END)
+        textBoxTelefonoContacto.delete(0,END)
+        textBoxRutCarga.delete(0,END)
+        textBoxNombreCarga.delete(0,END)
+        textBoxParentesco.delete(0,END)
+        comboSexoCarga.delete(0,END)
 
     except ValueError as error:
             print("Error al modificar los datos {}".format(error))
 
+
 def eliminarRegistros():
 
-    global textBoxRutTrabajador,textBoxNombreTrabajador,textBoxDireccionTrabajador,textBoxTelefonoTrabajador,comboSexo,textBoxCargoTrabajador,textBoxFechaIngreso,textBoxAreaTrabajador,textBoxDepartamento
+    global textBoxRutTrabajador,textBoxNombreTrabajador,textBoxDireccionTrabajador,textBoxTelefonoTrabajador,comboSexo,textBoxCargoTrabajador,textBoxFechaIngreso,textBoxAreaTrabajador,textBoxDepartamento,textBoxDepartamento,textBoxRutContacto,textBoxNombreContacto,textBoxRelacionTrabajador,textBoxTelefonoContacto,textBoxRutCarga,textBoxNombreCarga,textBoxParentesco,comboSexoCarga
 
     try:
         #verificar si los widgets estan inicializados
         if textBoxRutTrabajador is None:
-            # or textBoxRutContacto is None or textBoxNombreContacto is None or textBoxRelacionTrabajador is None or textBoxTelefonoContacto is None or textBoxRutCarga is None or textBoxNombreCarga is None or textBoxParentesco is None or comboSexoCarga is None:
+
             print("Los widgets no estan inicializados.")
             return
         
         
         rutTrabajador = textBoxRutTrabajador.get()
-        nombreTrabajador = textBoxNombreTrabajador.get()
-        direccionTrabajador = textBoxDireccionTrabajador.get()
-        telefonoTrabajador = textBoxTelefonoTrabajador.get()
-        sexoTrabajador = comboSexo.get()
-        cargoTrabajador = textBoxCargoTrabajador.get()
-        fechaIngreso = textBoxFechaIngreso.get()
-        area = textBoxAreaTrabajador.get()
-        departamento = textBoxDepartamento.get()
-
-        rutContacto = textBoxRutContacto.get()
-        nombreContacto = textBoxNombreContacto.get()
-        relacionTrabajador = textBoxRelacionTrabajador.get()
-        telefonoContacto = textBoxTelefonoContacto.get()
-        rutCarga = textBoxRutCarga.get()
-        nombreCarga = textBoxNombreCarga.get()
-        parentesco = textBoxParentesco.get()
-        sexoCarga = comboSexoCarga.get()
 
         IngresoTrabajador.eliminarTrabajador(rutTrabajador)
         messagebox.showinfo("Información","Los datos fueron eliminados")
@@ -437,6 +445,14 @@ def eliminarRegistros():
         textBoxFechaIngreso.delete(0,END)
         textBoxAreaTrabajador.delete(0,END)
         textBoxDepartamento.delete(0,END)
+        textBoxRutContacto.delete(0,END)
+        textBoxNombreContacto.delete(0,END)
+        textBoxRelacionTrabajador.delete(0,END)
+        textBoxTelefonoContacto.delete(0,END)
+        textBoxRutCarga.delete(0,END)
+        textBoxNombreCarga.delete(0,END)
+        textBoxParentesco.delete(0,END)
+        comboSexoCarga.delete(0,END)
 
     except ValueError as error:
             print("Error al modificar los datos {}".format(error))

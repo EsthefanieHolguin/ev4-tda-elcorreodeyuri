@@ -3,6 +3,8 @@ from tkinter import messagebox
 from tkinter.ttk import *
 import pyodbc
 
+from GuiFormularioIngresoTrabajadores import *
+
 root=Tk()
 root.title("Login")
 root.geometry("500x300")
@@ -36,6 +38,8 @@ def validar():
                 messagebox.showinfo("pagina inicio","Inicio secion Exitoso Admin")
             elif TipoUsuario == "RRHH":
                 messagebox.showinfo("pagina inicio","Inicio secion Exitoso RRHH")
+                FormularioT()
+
             elif TipoUsuario == "Trabajador":
                 messagebox.showinfo("pagina inicio","Inicio secion Exitoso Trabajador")
 
